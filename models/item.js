@@ -33,7 +33,7 @@ module.exports = (sequelize) => {
       },
       imageUrl: {
         type: DataTypes.STRING,
-        allowNull: false,
+        allowNull: true,
       },
       endTime: {
         type: DataTypes.DATE,
