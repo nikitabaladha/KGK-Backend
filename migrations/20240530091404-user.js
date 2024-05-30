@@ -1,3 +1,4 @@
+// migarations/user.js
 "use strict";
 const { v4: uuidv4 } = require("uuid");
 
@@ -13,6 +14,7 @@ module.exports = {
       userName: {
         type: Sequelize.STRING,
         allowNull: false,
+        unique: true,
       },
       password: {
         type: Sequelize.STRING,
@@ -26,6 +28,7 @@ module.exports = {
       role: {
         type: Sequelize.STRING,
         allowNull: false,
+        defaultValue: "user",
       },
       salt: {
         type: Sequelize.STRING,

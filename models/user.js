@@ -16,6 +16,7 @@ module.exports = (sequelize) => {
     userName: {
       type: DataTypes.STRING,
       allowNull: false,
+      unique: true,
     },
     password: {
       type: DataTypes.STRING,
@@ -29,6 +30,7 @@ module.exports = (sequelize) => {
     role: {
       type: DataTypes.STRING,
       allowNull: false,
+      defaultValue: "user",
     },
     salt: {
       type: DataTypes.STRING,
