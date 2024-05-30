@@ -1,9 +1,9 @@
 // controllers/login.js
 
 const jwt = require("jsonwebtoken");
-const models = require("../models");
-const saltFunction = require("../validator/saltFunction");
-const { jwtSecret, jwtExpiration } = require("../config/config.json");
+const models = require("../../models");
+const saltFunction = require("../../validator/saltFunction");
+const { jwtSecret, jwtExpiration } = require("../../config/config.json");
 
 async function login(req, res) {
   try {

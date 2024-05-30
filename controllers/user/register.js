@@ -1,8 +1,8 @@
 //controllers/register.js
 
-const models = require("../models");
-const saltFunction = require("../validator/saltFunction.js");
-const validateRegistrationData = require("../validator/validateRegistrationData");
+const models = require("../../models");
+const saltFunction = require("../../validator/saltFunction.js");
+const validateRegistrationData = require("../../validator/validateRegistrationData");
 
 async function register(req, res) {
   try {
