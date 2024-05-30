@@ -3,14 +3,25 @@
 const models = require("../../models");
 const validateItemData = require("../../validator/validateItemData");
 
-async function create(req, res) {
+async function update(req, res) {
   try {
     const { userId } = req.user;
 
     if (!userId) {
       return res.status(404).json({
         hasError: true,
-        message: "Forbidden: Only logged-in users can create items",
+        message: "Forbidden: Only logged-in users can update items",
+      });
+    }
+
+    const { itemId } = req.params;
+
+    const item = await models.items.findByPk(itemId);
+
+    if (!item) {
+      return res.status(404).json({
+        message: "Item not found.",
+        hasError: true,
       });
     }
 
@@ -39,23 +50,22 @@ async function create(req, res) {
       });
     }
 
-    let newItem = await models.items.create({
-      name,
-      description,
-      startingPrice,
-      currentPrice: currentPrice || startingPrice,
-      imageUrl,
-      endTime,
-      status: "active",
-    });
+    item.name = name;
+    item.description = description;
+    item.startingPrice = startingPrice;
+    item.currentPrice = currentPrice || startingPrice;
+    item.imageUrl = imageUrl;
+    item.endTime = endTime;
+
+    await item.save();
 
     return res.status(200).json({
       hasError: false,
-      message: "Item created successfully",
-      data: newItem,
+      message: "Item updated successfully",
+      data: item,
     });
   } catch (error) {
-    console.error("Error during creating Item", error);
+    console.error("Error during updating Item", error);
 
     if (error.name === "SequelizeUniqueConstraintError") {
       return res.status(400).json({
@@ -71,4 +81,4 @@ async function create(req, res) {
   }
 }
 
-module.exports = create;
+module.exports = update;

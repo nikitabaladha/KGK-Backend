@@ -1,23 +1,34 @@
 // validator/validateItemData.js
 
-module.exports = function validateItemData(
+const Joi = require("joi");
+
+function validateItemData(
   name,
   description,
   startingPrice,
+  currentPrice,
   imageUrl,
   endTime
 ) {
-  const errors = [];
+  const schema = Joi.object({
+    name: Joi.string().required(),
+    description: Joi.string().required(),
+    startingPrice: Joi.number().positive().required(),
+    currentPrice: Joi.number().optional().min(0),
+    imageUrl: Joi.string().optional(),
+    endTime: Joi.date().iso().required(),
+  });
 
-  if (!name || typeof name !== "string") errors.push("Invalid or missing name");
-  if (!description || typeof description !== "string")
-    errors.push("Invalid or missing description");
-  if (!startingPrice || isNaN(parseFloat(startingPrice)))
-    errors.push("Invalid or missing starting price");
-  if (!imageUrl || typeof imageUrl !== "string")
-    errors.push("Invalid or missing image URL");
-  if (!endTime || isNaN(Date.parse(endTime)))
-    errors.push("Invalid or missing end time");
+  const { error } = schema.validate({
+    name,
+    description,
+    startingPrice,
+    currentPrice,
+    imageUrl,
+    endTime,
+  });
 
-  return errors;
-};
+  return error ? error.details.map((err) => err.message) : [];
+}
+
+module.exports = validateItemData;
