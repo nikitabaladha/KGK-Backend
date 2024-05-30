@@ -53,16 +53,17 @@ module.exports = {
     });
 
     await queryInterface.sequelize.query(`
-   UPDATE "items"
-   SET "currentPrice" = "startingPrice"
-   WHERE "currentPrice" IS NULL;
- `);
+UPDATE "items"
+SET "currentPrice" = "startingPrice"
+WHERE "currentPrice" = 0;
+`);
 
     await queryInterface.sequelize.query(`
-   ALTER TABLE "items"
-   ALTER COLUMN "currentPrice" SET DEFAULT 0; -- or any other default value
- `);
+ALTER TABLE "items"
+ALTER COLUMN "currentPrice" SET DEFAULT '0';
+`);
   },
+
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable("items");
   },

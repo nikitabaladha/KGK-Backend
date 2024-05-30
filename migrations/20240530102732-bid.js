@@ -1,4 +1,3 @@
-// migarations/bid.js
 "use strict";
 const { v4: uuidv4 } = require("uuid");
 
@@ -40,8 +39,15 @@ module.exports = {
         type: Sequelize.DATE,
       },
     });
+
+    await queryInterface.addConstraint("bids", {
+      type: "unique",
+      fields: ["itemId", "userId"],
+      name: "unique_item_user_bid",
+    });
   },
   async down(queryInterface, Sequelize) {
+    await queryInterface.removeConstraint("bids", "unique_item_user_bid");
     await queryInterface.dropTable("bids");
   },
 };

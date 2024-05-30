@@ -9,8 +9,11 @@ module.exports = (app) => {
   app.get("/api/profile", Middleware, Controller.user.profile);
 
   app.post("/api/item", Middleware, Controller.item.create);
-  app.get("/api/item", Middleware, Controller.item.get);
-  app.get("/api/item/:itemId", Middleware, Controller.item.getById);
+  app.get("/api/item", Controller.item.get);
+  app.get("/api/item/:itemId", Controller.item.getById);
   app.put("/api/item/:itemId", Middleware, Controller.item.update);
   app.delete("/api/item/:itemId", Middleware, Controller.item.deleteById);
+
+  app.post("/api/bid/:itemId", Middleware, Controller.bid.create);
+  app.get("/api/bid/:itemId", Controller.bid.getBidsByItemId);
 };

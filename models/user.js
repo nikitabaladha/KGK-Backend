@@ -46,5 +46,11 @@ module.exports = (sequelize) => {
     },
   });
 
+  user.associate = (models) => {
+    user.hasMany(models.bids, {
+      foreignKey: "userId",
+    });
+  };
+
   return user;
 };
