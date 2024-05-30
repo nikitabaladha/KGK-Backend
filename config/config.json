@@ -1,0 +1,26 @@
+{
+  "development": {
+    "username": "postgres",
+    "password": "Root",
+    "database": "kgk-backend",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "log": true
+  },
+  "test": {
+    "username": "postgres",
+    "password": "Root",
+    "database": "kgk-backend",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "log": true
+  },
+  "production": {
+    "username": "postgres",
+    "password": "Root",
+    "database": "kgk-backend",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "log": true
+  }
+}
