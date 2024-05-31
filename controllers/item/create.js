@@ -5,23 +5,22 @@ const validateItemData = require("../../validator/validateItemData");
 
 async function create(req, res) {
   try {
+    console.log("File received:", req.file);
+    console.log("Form data:", req.body);
+
     const { userId } = req.user;
 
     if (!userId) {
-      return res.status(404).json({
+      return res.status(403).json({
         hasError: true,
         message: "Forbidden: Only logged-in users can create items",
       });
     }
 
-    const {
-      name,
-      description,
-      startingPrice,
-      currentPrice,
-      imageUrl,
-      endTime,
-    } = req.body;
+    const { name, description, startingPrice, currentPrice, endTime } =
+      req.body;
+
+    const imageUrl = req.file ? req.file.path : null;
 
     const validationErrors = validateItemData(
       name,
@@ -39,7 +38,7 @@ async function create(req, res) {
       });
     }
 
-    let newItem = await models.items.create({
+    const newItem = await models.items.create({
       name,
       description,
       startingPrice,
@@ -49,13 +48,13 @@ async function create(req, res) {
       status: "active",
     });
 
-    return res.status(200).json({
+    return res.status(201).json({
       hasError: false,
       message: "Item created successfully",
       data: newItem,
     });
   } catch (error) {
-    console.error("Error during creating Item", error);
+    console.error("Error during creating Item:", error);
 
     if (error.name === "SequelizeUniqueConstraintError") {
       return res.status(400).json({

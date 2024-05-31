@@ -2,12 +2,19 @@
 
 const Controller = require("../controllers");
 const Middleware = require("../middleware");
+const upload = require("../controllers/item/multerConfig");
 
 module.exports = (app) => {
   app.post("/api/register", Controller.user.register);
   app.post("/api/login", Controller.user.login);
   app.get("/api/profile", Middleware, Controller.user.profile);
 
+  app.post(
+    "/api/item",
+    upload.single("image"),
+    Middleware,
+    Controller.item.create
+  );
   app.post("/api/item", Middleware, Controller.item.create);
   app.get("/api/item", Controller.item.get);
   app.get("/api/item/:itemId", Controller.item.getById);

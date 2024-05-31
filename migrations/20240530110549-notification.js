@@ -1,4 +1,4 @@
-// migarations/bid.js
+// migarations/notification.js
 "use strict";
 const { v4: uuidv4 } = require("uuid");
 

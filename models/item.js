@@ -63,11 +63,5 @@ module.exports = (sequelize) => {
     }
   );
 
-  item.associate = (models) => {
-    item.hasMany(models.bids, {
-      foreignKey: "itemId",
-    });
-  };
-
   return item;
 };
