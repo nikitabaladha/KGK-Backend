@@ -62,7 +62,7 @@ module.exports = (sequelize) => {
       modelName: "items",
       tableName: "items",
       hooks: {
-        beforeCreate: (item, options) => {
+        beforeCreate: (item) => {
           if (item.currentPrice === undefined || item.currentPrice === null) {
             item.currentPrice = item.startingPrice;
           }

@@ -72,7 +72,7 @@ ALTER COLUMN "currentPrice" SET DEFAULT '0';
 `);
   },
 
-  async down(queryInterface, Sequelize) {
+  async down(queryInterface) {
     await queryInterface.dropTable("items");
   },
 };
