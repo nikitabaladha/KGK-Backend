@@ -61,8 +61,9 @@
 
 // module.exports = create;
 
+// controllers/bid/create.js
 const models = require("../../models");
-const WebSocket = require("ws"); // Import WebSocket module
+const WebSocket = require("ws");
 
 async function create(req, res) {
   try {
@@ -99,7 +100,6 @@ async function create(req, res) {
       bidAmount,
     });
 
-    // Notify all connected clients about the new bid
     const wss = req.app.get("wss");
     wss.clients.forEach((client) => {
       if (client.readyState === WebSocket.OPEN) {
@@ -124,13 +124,6 @@ async function create(req, res) {
     });
   } catch (error) {
     console.error("Error during creating Bid", error);
-
-    if (error.name === "SequelizeUniqueConstraintError") {
-      return res.status(400).json({
-        hasError: true,
-        message: "You have already placed a bid on this item",
-      });
-    }
 
     return res.status(500).json({
       hasError: true,

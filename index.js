@@ -57,11 +57,12 @@
 
 const express = require("express");
 const http = require("http");
-const WebSocket = require("ws"); // Import WebSocket module
-const app = express();
-
+const WebSocket = require("ws");
 const bodyParser = require("body-parser");
 const routes = require("./routes");
+const wss = require("./webSocket");
+
+const app = express();
 
 app.use(bodyParser.json());
 
@@ -74,7 +75,9 @@ app.get("/api", (req, res) => {
 const server = http.createServer(app);
 
 // Create WebSocket server
-const wss = new WebSocket.Server({ server });
+// const wss = new WebSocket.Server({ server });
+
+app.set("wss", wss);
 
 // Pass WebSocket instance to route handlers
 app.use((req, res, next) => {

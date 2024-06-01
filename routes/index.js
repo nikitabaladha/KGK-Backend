@@ -21,7 +21,12 @@ module.exports = (app) => {
   app.post("/api/item", Middleware, Controller.item.create);
   app.get("/api/item", Controller.item.get);
   app.get("/api/item/:itemId", Controller.item.getById);
-  app.put("/api/item/:itemId", Middleware, Controller.item.update);
+  app.put(
+    "/api/item/:itemId",
+    upload.single("image"),
+    Middleware,
+    Controller.item.update
+  );
   app.delete("/api/item/:itemId", Middleware, Controller.item.deleteById);
 
   app.post("/api/bid/:itemId", Middleware, Controller.bid.create);
