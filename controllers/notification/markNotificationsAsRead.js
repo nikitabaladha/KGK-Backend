@@ -4,7 +4,7 @@ const models = require("../../models");
 const markNotificationsAsRead = async (req, res) => {
   try {
     const { userId } = req.user;
-    const io = req.io; // Access io from request
+    const io = req.io;
 
     if (!userId) {
       return res.status(403).json({

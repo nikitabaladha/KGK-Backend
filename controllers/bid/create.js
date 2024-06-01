@@ -19,7 +19,6 @@ async function create(userId, itemId, bidAmount, io) {
       bidAmount,
     });
 
-    // Emit WebSocket event to notify all clients about the new bid
     io.emit("update", { itemId, bidAmount, userId });
 
     return bid;

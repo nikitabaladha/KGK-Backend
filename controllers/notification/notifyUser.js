@@ -11,7 +11,4 @@ async function notifyUser(req, res) {
   }
 }
 
-module.exports = {
-  notifyUser,
-  markNotificationsAsRead,
-};
+module.exports = notifyUser;

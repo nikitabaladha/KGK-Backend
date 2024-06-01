@@ -5,9 +5,6 @@ const validateItemData = require("../../validator/validateItemData");
 
 async function create(req, res) {
   try {
-    console.log("File received:", req.file);
-    console.log("Form data:", req.body);
-
     const { userId } = req.user;
 
     if (!userId) {
