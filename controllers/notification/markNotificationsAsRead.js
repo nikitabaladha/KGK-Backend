@@ -1,8 +1,10 @@
+// controllers/notification/markNotificationsAsRead.js
 const models = require("../../models");
 
 const markNotificationsAsRead = async (req, res) => {
   try {
     const { userId } = req.user;
+    const io = req.io; // Access io from request
 
     if (!userId) {
       return res.status(403).json({
@@ -16,9 +18,12 @@ const markNotificationsAsRead = async (req, res) => {
       { where: { userId, isRead: false } }
     );
 
-    return res
-      .status(200)
-      .json({ hasError: false, message: "Notifications marked as read" });
+    io.emit("notify", { message: "Notifications marked as read" });
+
+    return res.status(200).json({
+      hasError: false,
+      message: "Notifications marked as read",
+    });
   } catch (error) {
     console.error("Failed to mark notifications as read", error);
 

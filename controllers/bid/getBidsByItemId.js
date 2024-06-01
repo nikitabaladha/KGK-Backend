@@ -1,4 +1,4 @@
-// controllers/getById/getById.js
+// controllers/getBidsById/getBidsById.js
 
 const models = require("../../models");
 

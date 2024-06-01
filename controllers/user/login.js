@@ -1,4 +1,4 @@
-// controllers/login.js
+// controllers/user/login.js
 
 const jwt = require("jsonwebtoken");
 const models = require("../../models");

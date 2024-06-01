@@ -1,33 +1,16 @@
 // controllers/bid/create.js
 const models = require("../../models");
 
-async function create(req, res) {
+async function create(userId, itemId, bidAmount, io) {
   try {
-    const { userId } = req.user;
-    const { itemId } = req.params;
-    const { bidAmount } = req.body;
-
-    if (!userId) {
-      return res.status(404).json({
-        hasError: true,
-        message: "Forbidden: Only logged-in users can create bids",
-      });
-    }
-
     const item = await models.items.findByPk(itemId);
 
     if (!item) {
-      return res.status(404).json({
-        message: "Item not found.",
-        hasError: true,
-      });
+      throw new Error("Item not found.");
     }
 
     if (bidAmount <= item.currentPrice) {
-      return res.status(400).json({
-        hasError: true,
-        message: "Bid amount must be higher than the current price",
-      });
+      throw new Error("Bid amount must be higher than the current price");
     }
 
     const bid = await models.bids.create({
@@ -36,18 +19,13 @@ async function create(req, res) {
       bidAmount,
     });
 
-    return res.status(200).json({
-      hasError: false,
-      message: "Bid placed successfully",
-      data: bid,
-    });
+    // Emit WebSocket event to notify all clients about the new bid
+    io.emit("update", { itemId, bidAmount, userId });
+
+    return bid;
   } catch (error) {
     console.error("Error during creating Bid", error);
-
-    return res.status(500).json({
-      hasError: true,
-      message: "Internal Server Error",
-    });
+    throw new Error("Internal Server Error");
   }
 }
 

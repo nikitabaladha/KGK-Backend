@@ -1,4 +1,4 @@
-//controllers/register.js
+//controllers/user/register.js
 
 const models = require("../../models");
 const saltFunction = require("../../validator/saltFunction.js");
