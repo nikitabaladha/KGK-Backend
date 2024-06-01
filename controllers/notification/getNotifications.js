@@ -1,4 +1,5 @@
 // controllers/notification/getNotification.js
+
 const models = require("../../models");
 
 const getNotifications = async (req, res) => {
