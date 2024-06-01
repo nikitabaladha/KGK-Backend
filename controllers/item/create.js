@@ -39,6 +39,7 @@ async function create(req, res) {
     }
 
     const newItem = await models.items.create({
+      userId,
       name,
       description,
       startingPrice,

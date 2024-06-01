@@ -1,13 +1,22 @@
+// controllers/item/get.js
+
 const models = require("../../models");
 
 async function get(req, res) {
   try {
     const page = parseInt(req.query.page) || 1;
     const pageSize = parseInt(req.query.pageSize) || 5;
+    const status = req.query.status;
 
     const offset = (page - 1) * pageSize;
 
+    const filter = {};
+    if (status) {
+      filter.status = status.toLowerCase();
+    }
+
     const items = await models.items.findAll({
+      where: filter,
       limit: pageSize,
       offset: offset,
     });

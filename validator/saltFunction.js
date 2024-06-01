@@ -3,7 +3,7 @@
 const crypto = require("crypto");
 
 function hashPassword(password) {
-  const salt = crypto.randomBytes(16).toString("hex");
+  const salt = crypto.randomBytes(32).toString("hex");
   const hashedPassword = crypto
     .pbkdf2Sync(password, salt, 1000, 64, `sha512`)
     .toString(`hex`);

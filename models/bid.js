@@ -43,10 +43,5 @@ module.exports = (sequelize) => {
     },
   });
 
-  bid.associate = (models) => {
-    bid.belongsTo(models.users, { foreignKey: "userId" });
-    bid.belongsTo(models.items, { foreignKey: "itemId" });
-  };
-
   return bid;
 };

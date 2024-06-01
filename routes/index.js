@@ -9,6 +9,9 @@ module.exports = (app) => {
   app.post("/api/login", Controller.user.login);
   app.get("/api/profile", Middleware, Controller.user.profile);
 
+  app.post("api/forgot-password", Middleware, Controller.user.forgotPassword);
+  app.post("/api/reset-password", Middleware, Controller.user.resetPassword);
+
   app.post(
     "/api/item",
     upload.single("image"),
@@ -23,4 +26,16 @@ module.exports = (app) => {
 
   app.post("/api/bid/:itemId", Middleware, Controller.bid.create);
   app.get("/api/bid/:itemId", Controller.bid.getBidsByItemId);
+
+  app.get(
+    "/api/notifications",
+    Middleware,
+    Controller.notification.getNotifications
+  );
+
+  app.post(
+    "/api/notifications-mark-read",
+    Middleware,
+    Controller.notification.markNotificationsAsRead
+  );
 };

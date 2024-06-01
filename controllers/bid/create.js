@@ -1,6 +1,68 @@
-// controllers/bid/create.js
+// // controllers/bid/create.js
+
+// const models = require("../../models");
+
+// async function create(req, res) {
+//   try {
+//     const { userId } = req.user;
+//     const { itemId } = req.params;
+//     const { bidAmount } = req.body;
+
+//     if (!userId) {
+//       return res.status(404).json({
+//         hasError: true,
+//         message: "Forbidden: Only logged-in users can create bids",
+//       });
+//     }
+
+//     const item = await models.items.findByPk(itemId);
+
+//     if (!item) {
+//       return res.status(404).json({
+//         message: "Item not found.",
+//         hasError: true,
+//       });
+//     }
+
+//     if (bidAmount <= item.currentPrice) {
+//       return res.status(400).json({
+//         hasError: true,
+//         message: "Bid amount must be higher than the current price",
+//       });
+//     }
+
+//     const bid = await models.bids.create({
+//       itemId,
+//       userId,
+//       bidAmount,
+//     });
+
+//     return res.status(200).json({
+//       hasError: false,
+//       message: "Bid placed successfully",
+//       data: bid,
+//     });
+//   } catch (error) {
+//     console.error("Error during creating Bid", error);
+
+//     if (error.name === "SequelizeUniqueConstraintError") {
+//       return res.status(400).json({
+//         hasError: true,
+//         message: "You have already placed a bid on this item",
+//       });
+//     }
+
+//     return res.status(500).json({
+//       hasError: true,
+//       message: "Internal Server Error",
+//     });
+//   }
+// }
+
+// module.exports = create;
 
 const models = require("../../models");
+const WebSocket = require("ws"); // Import WebSocket module
 
 async function create(req, res) {
   try {
@@ -35,6 +97,24 @@ async function create(req, res) {
       itemId,
       userId,
       bidAmount,
+    });
+
+    // Notify all connected clients about the new bid
+    const wss = req.app.get("wss");
+    wss.clients.forEach((client) => {
+      if (client.readyState === WebSocket.OPEN) {
+        client.send(
+          JSON.stringify({
+            event: "update",
+            data: {
+              itemId,
+              bidAmount,
+              userId,
+              username: req.user.username,
+            },
+          })
+        );
+      }
     });
 
     return res.status(200).json({
